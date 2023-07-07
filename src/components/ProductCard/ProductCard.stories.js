@@ -8,5 +8,6 @@ export const Default = {
   args: {
     name: "Product 1",
     imageUrl: "https://placehold.co/400",
+    price: "R$30,00",
   },
 };
