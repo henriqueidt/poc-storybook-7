@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots components/Cart Default 1`] = `
+<ul>
+  <li
+    data-testid="Product 1-listitem"
+  >
+    <div>
+      Product 1
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+  <li
+    data-testid="Product 2-listitem"
+  >
+    <div>
+      Product 2
+    </div>
+    <div>
+      R$60,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+</ul>
+`;
+
+exports[`Storyshots components/Cart Multiple Products 1`] = `
+<ul>
+  <li
+    data-testid="Product 1-listitem"
+  >
+    <div>
+      Product 1
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+  <li
+    data-testid="Product 2-listitem"
+  >
+    <div>
+      Product 2
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+  <li
+    data-testid="Product 3-listitem"
+  >
+    <div>
+      Product 3
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+  <li
+    data-testid="Product 4-listitem"
+  >
+    <div>
+      Product 4
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+  <li
+    data-testid="Product 5-listitem"
+  >
+    <div>
+      Product 5
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+</ul>
+`;
+
+exports[`Storyshots components/Cart No Products 1`] = `
+<div>
+  Your cart is empty
+</div>
+`;
+
+exports[`Storyshots components/Cart One Product 1`] = `
+<ul>
+  <li
+    data-testid="Product 1-listitem"
+  >
+    <div>
+      Product 1
+    </div>
+    <div>
+      R$30,00
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </li>
+</ul>
+`;
+
+exports[`Storyshots components/CheckoutButton Default 1`] = `
+<button>
+  Start checkout
+</button>
+`;
+
+exports[`Storyshots components/NavBar Default 1`] = `
+<nav>
+  <a
+    href="/Home"
+  >
+    Home
+  </a>
+  <a
+    href="/Cart"
+  >
+    Cart
+  </a>
+  <a
+    href="/Checkout"
+  >
+    Checkout
+  </a>
+  <a
+    href="/Logout"
+  >
+    Logout
+  </a>
+</nav>
+`;
+
+exports[`Storyshots components/ProductCard Default 1`] = `
+<div>
+  <img
+    alt="Product 1"
+    src="https://placehold.co/400"
+  />
+  <h2>
+    Product 1
+  </h2>
+  <div>
+    R$30,00
+  </div>
+  <button>
+    Add to Cart
+  </button>
+</div>
+`;
