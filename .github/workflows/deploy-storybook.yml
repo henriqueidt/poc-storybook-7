@@ -20,13 +20,15 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook
 
-      - name: Authenticate with the GitHub Package Registry
-        run:
-          echo "//npm.pkg.github.com:_authToken=${{ secrets.SECRET_GITHUB_TOKEN }}" >
-          ~/.npmrc
+      # - name: Authenticate with the GitHub Package Registry
+      #   run:
+      #     echo "//npm.pkg.github.com:_authToken=${{ secrets.SECRET_GITHUB_TOKEN }}" >
+      #     ~/.npmrc
 
       - name: Deploy to GitHub Pages
         run: |
+          git config --global user.name "Henrique Eidt"
+          git config --global user.email "henriqueidt@gmail.com"
           git checkout -B gh-pages
           git add -f storybook-static
           git commit -m "Deploy Storybook to GitHub Pages"
