@@ -27,7 +27,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          git remote set-url origin git@github.com:henriqueidt/poc-storybook-7.git
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
           git config --global user.name "Henrique Eidt"
           git config --global user.email "henriqueidt@gmail.com"
           git checkout -B gh-pages
