@@ -1,7 +1,7 @@
 name: Publish Storybook to GitHub Pages
 
 on:
-  push:
+  pull_request:
     branches:
       - "main"
 
@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
       - name: Checkout code
         uses: actions/checkout@v2.3.1
         with:
@@ -36,7 +41,11 @@ jobs:
           git commit --allow-empty -m "Initializing gh-pages branch"
           git checkout main
           git checkout gh-pages
-          git add -f storybook-static
+          mkdir ${{ steps.extract_branch.outputs.branch }}
+          cd storybook-static
+          mv * ../${{ steps.extract_branch.outputs.branch }}
+          cd ..
+          git add -f ${{ steps.extract_branch.outputs.branch }}
           git commit -m "Deploy Storybook to GitHub Pages"
           git push -f origin gh-pages
 
