@@ -44,7 +44,25 @@ jobs:
 
       - name: Create version mark
         run: |
+<<<<<<< HEAD
           touch ./storybook-static/${{ github.sha }}.txt
+=======
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
+          git config --global user.name "Henrique Eidt"
+          git config --global user.email "henriqueidt@gmail.com"
+          git checkout --orphan gh-pages
+          git reset --hard
+          git commit --allow-empty -m "Initializing gh-pages branch"
+          git checkout ${{ steps.extract_branch.outputs.branch }}
+          git checkout gh-pages
+          mkdir ${{ steps.extract_branch.outputs.branch }}
+          cd storybook-static
+          mv * ../${{ steps.extract_branch.outputs.branch }}
+          cd ..
+          git add -f ${{ steps.extract_branch.outputs.branch }}
+          git commit -m "Deploy Storybook to GitHub Pages"
+          git push -f origin gh-pages
+>>>>>>> fe549ca (fix scropt)
 
       - name: Push to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
