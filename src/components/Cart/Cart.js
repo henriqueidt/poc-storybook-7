@@ -15,6 +15,7 @@ export const Cart = ({ products }) => {
     <ul>
       {finalProducts.map(({ name, price }, index) => (
         <li key={name} data-testid={`${name}-listitem`}>
+          <div>THIS IS NEW</div>
           <div>{name}</div>
           <div>{price}</div>
           <button onClick={() => removeProduct(name)}>Remove</button>
