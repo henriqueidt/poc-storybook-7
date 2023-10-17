@@ -29,8 +29,8 @@ jobs:
       - name: Deploy to GitHub Pages
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
-          # git config --global user.name "Henrique Eidt"
-          # git config --global user.email "henriqueidt@gmail.com"
+          git config --global user.name "Henrique Eidt"
+          git config --global user.email "henriqueidt@gmail.com"
           git checkout -B gh-pages
           git add -f storybook-static
           git commit -m "Deploy Storybook to GitHub Pages"
