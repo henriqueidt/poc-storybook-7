@@ -39,6 +39,7 @@ jobs:
           git checkout --orphan gh-pages
           git reset --hard
           git commit --allow-empty -m "Initializing gh-pages branch"
+          git fetch
           git checkout ${{ steps.extract_branch.outputs.branch }}
           git checkout gh-pages
           mkdir ${{ steps.extract_branch.outputs.branch }}
