@@ -31,8 +31,14 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
           git config --global user.name "Henrique Eidt"
           git config --global user.email "henriqueidt@gmail.com"
-          git checkout -B gh-pages
-          git add -f storybook-static
+          git checkout --orphan gh-pages
+          git reset --hard
+          git commit --allow-empty -m "Initializing gh-pages branch"
+          git checkout main
+          git checkout gh-pages
+          rm -rf *
+          mv storybook-static/*
+          git add -A
           git commit -m "Deploy Storybook to GitHub Pages"
           git push -f origin gh-pages
 
