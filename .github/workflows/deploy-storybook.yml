@@ -5,6 +5,11 @@ on:
     branches:
       - "main"
 
+permissions:
+  contents: write
+  pull-requests: write
+  deployments: write
+
 # Stores the branch name into env.BRANCH_NAME
 env:
   BRANCH_NAME: ${{ github.head_ref }}
