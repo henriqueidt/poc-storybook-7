@@ -36,6 +36,7 @@ jobs:
         id: deployment
         with:
           step: start
+          ref: ${{ github.ref || github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           env: demo-${{ env.BRANCH_NAME }}
 
