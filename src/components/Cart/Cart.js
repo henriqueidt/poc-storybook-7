@@ -4,7 +4,7 @@ export const Cart = ({ products }) => {
   const [finalProducts, setFinalProducts] = useState(products);
 
   if (!finalProducts || finalProducts.length === 0) {
-    return <div>Your cart is empty</div>;
+    return <div>Your cart is emptys</div>;
   }
 
   const removeProduct = (name) => {
