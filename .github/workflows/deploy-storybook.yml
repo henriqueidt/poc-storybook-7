@@ -2,7 +2,7 @@ name: Publish Storybook to GitHub Pages
 
 on:
   pull_request:
-    types: [reopened]
+    types: [opened, reopened, edited]
     branches:
       - "main"
 
