@@ -40,5 +40,6 @@ jobs:
         if: always()
         with:
           step: delete-env
+          ref: ${{ github.head_ref }}
           token: ${{ secrets.SECRET_GITHUB_TOKEN }}
           env: demo-${{ env.BRANCH_NAME }}
