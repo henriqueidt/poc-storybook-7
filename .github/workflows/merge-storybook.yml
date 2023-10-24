@@ -1,0 +1,44 @@
+name: Cleanup Storybook Deployment
+
+on:
+  pull_request:
+    types: [closed]
+permissions:
+  contents: write
+  pull-requests: write
+  deployments: write
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  cleanup_storybook_deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Create empty dir
+        run: |
+          mkdir storybook-empty
+          touch storybook-empty/.gitkeep
+
+      - name: Pushing to pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: storybook-empty
+          target-folder: ${{ env.BRANCH_NAME }}
+
+      - name: Delete deployment
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: delete-env
+          token: ${{ secrets.SECRET_GITHUB_TOKEN }}
+          env: demo-${{ env.BRANCH_NAME }}
