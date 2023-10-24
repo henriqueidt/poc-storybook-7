@@ -5,52 +5,95 @@ on:
     branches:
       - "main"
 
+# Stores the branch name into env.BRANCH_NAME
+env:
+  BRANCH_NAME: ${{ github.head_ref }}
+
 jobs:
   deploy:
+    # SHOULD I USE?
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
+      # REMOVED - name: Extract branch name
+      # REMOVED  shell: bash
+      # REMOVED  run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+      # REMOVED  id: extract_branch
 
       - name: Checkout code
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3
+        # REMOVED with:
+        # REMOVED  persist-credentials: false
+
+      - name: Create deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
         with:
-          persist-credentials: false
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: demo-${{ env.BRANCH_NAME }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Install Dependencies
         run: yarn
 
       - name: Build Storybook
-        run: yarn build-storybook
+        run: STORYBOOK_BUILD_PATH=${{ env.BRANCH_NAME }} yarn run build-storybook
 
-      # - name: Authenticate with the GitHub Package Registry
-      #   run:
-      #     echo "//npm.pkg.github.com:_authToken=${{ secrets.SECRET_GITHUB_TOKEN }}" >
-      #     ~/.npmrc
-
-      - name: Deploy to GitHub Pages
+      - name: Create version mark
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
-          git config --global user.name "Henrique Eidt"
-          git config --global user.email "henriqueidt@gmail.com"
-          git checkout --orphan gh-pages
-          git reset --hard
-          git commit --allow-empty -m "Initializing gh-pages branch"
-          git fetch
-          git checkout ${{ steps.extract_branch.outputs.branch }}
-          git checkout gh-pages
-          mkdir ${{ steps.extract_branch.outputs.branch }}
-          cd storybook-static
-          mv * ../${{ steps.extract_branch.outputs.branch }}
-          cd ..
-          git add -f ${{ steps.extract_branch.outputs.branch }}
-          git commit -m "Deploy Storybook to GitHub Pages"
-          git push -f origin gh-pages
+          touch ./storybook-static/${{ github.sha }}.txt
 
-      - name: Cleanup
-        run: |
-          git checkout main
-          git branch -D gh-pages
+      - name: Push to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: storybook-static
+          target-folder: ${{ env.BRANCH_NAME }}
+
+      - name: Wait Github deploy
+        uses: mydea/action-wait-for-api@v1
+        with:
+          url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ env.BRANCH_NAME }}/${{ github.sha }}.txt
+          expected-status: 200
+          timeout: 600
+          interval: 15
+
+      - name: Update deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ env.BRANCH_NAME }}
+
+      # - name: Deploy to GitHub Pages
+      #   run: |
+      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
+      #     git config --global user.name "Henrique Eidt"
+      #     git config --global user.email "henriqueidt@gmail.com"
+      #     git checkout --orphan gh-pages
+      #     git reset --hard
+      #     git commit --allow-empty -m "Initializing gh-pages branch"
+      #     git fetch
+      #     git checkout ${{ steps.extract_branch.outputs.branch }}
+      #     git checkout gh-pages
+      #     mkdir ${{ steps.extract_branch.outputs.branch }}
+      #     cd storybook-static
+      #     mv * ../${{ steps.extract_branch.outputs.branch }}
+      #     cd ..
+      #     git add -f ${{ steps.extract_branch.outputs.branch }}
+      #     git commit -m "Deploy Storybook to GitHub Pages"
+      #     git push -f origin gh-pages
+
+      # - name: Cleanup
+      #   run: |
+      #     git checkout main
+      #     git branch -D gh-pages
