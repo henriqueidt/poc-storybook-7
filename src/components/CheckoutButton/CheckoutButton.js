@@ -1,3 +1,3 @@
 export const CheckoutButton = () => {
-  return <button>Start checkout</button>;
+  return <button style="background-color: green;">Start checkout DEMO</button>;
 };
