@@ -55,9 +55,9 @@ pipeline {
         stage('Update deployment status') {
             steps {
                 script {
-                    def deploymentId = sh(script: "curl -s -H 'Authorization: token \${GITHUB_TOKEN}' https://api.github.com/repos/\henriqueidt/\poc-storybook-7/deployments | jq -r '.[] | select(.ref == \"\${BRANCH_NAME}\") | .id'", returnStdout: true).trim()
+                    def deploymentId = sh(script: "curl -s -H 'Authorization: token \${GITHUB_TOKEN}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments | jq -r '.[] | select(.ref == \"\${BRANCH_NAME}\") | .id'", returnStdout: true).trim()
                     def status = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'failure' : 'success'
-                    sh script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"state\": \"\${status}\"}' https://api.github.com/repos/\henriqueidt/\poc-storybook-7/deployments/\${deploymentId}/statuses", returnStatus: true
+                    sh script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"state\": \"\${status}\"}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments/\${deploymentId}/statuses", returnStatus: true
                 }
             }
         }
