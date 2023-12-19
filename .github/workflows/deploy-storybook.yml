@@ -2,35 +2,33 @@ name: Publish Storybook to GitHub Pages
 
 on:
   pull_request:
+    types: [opened, reopened, edited]
     branches:
       - "main"
 
-# Stores the branch name into env.BRANCH_NAME
+permissions:
+  contents: write
+  pull-requests: write
+  deployments: write
+
 env:
-  BRANCH_NAME: ${{ github.head_ref }}
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   deploy:
-    # SHOULD I USE?
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
 
     steps:
-      # REMOVED - name: Extract branch name
-      # REMOVED  shell: bash
-      # REMOVED  run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-      # REMOVED  id: extract_branch
-
       - name: Checkout code
         uses: actions/checkout@v3
-        # REMOVED with:
-        # REMOVED  persist-credentials: false
 
       - name: Create deployment
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
           step: start
+          ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           env: demo-${{ env.BRANCH_NAME }}
 
@@ -73,27 +71,3 @@ jobs:
           env: ${{ steps.deployment.outputs.env }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ env.BRANCH_NAME }}
-
-      # - name: Deploy to GitHub Pages
-      #   run: |
-      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/henriqueidt/poc-storybook-7
-      #     git config --global user.name "Henrique Eidt"
-      #     git config --global user.email "henriqueidt@gmail.com"
-      #     git checkout --orphan gh-pages
-      #     git reset --hard
-      #     git commit --allow-empty -m "Initializing gh-pages branch"
-      #     git fetch
-      #     git checkout ${{ steps.extract_branch.outputs.branch }}
-      #     git checkout gh-pages
-      #     mkdir ${{ steps.extract_branch.outputs.branch }}
-      #     cd storybook-static
-      #     mv * ../${{ steps.extract_branch.outputs.branch }}
-      #     cd ..
-      #     git add -f ${{ steps.extract_branch.outputs.branch }}
-      #     git commit -m "Deploy Storybook to GitHub Pages"
-      #     git push -f origin gh-pages
-
-      # - name: Cleanup
-      #   run: |
-      #     git checkout main
-      #     git branch -D gh-pages
