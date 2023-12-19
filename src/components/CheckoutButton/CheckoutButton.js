@@ -1,3 +1,3 @@
 export const CheckoutButton = () => {
-  return <button>Start checkout</button>;
+  return <button style={{backgroundColor: "green"}}>Start checkout DEMO 5</button>;
 };
