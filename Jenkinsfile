@@ -12,6 +12,7 @@ pipeline {
         stage('Create deployment') {
             steps {
                 script {
+                    echo "GitHub Token: ${GITHUB_TOKEN}"
                     def deployment = sh(script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"ref\": \"\${BRANCH_NAME}\", \"environment\": \"demo-\${BRANCH_NAME}\"}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments", returnStatus: true)
                     if (deployment != 201) {
                         error "Failed to create deployment"
