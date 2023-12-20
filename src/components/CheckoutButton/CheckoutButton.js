@@ -1,3 +1,3 @@
 export const CheckoutButton = () => {
-  return <button>Start checkout 98</button>;
+  return <button>Start checkout 998</button>;
 };
