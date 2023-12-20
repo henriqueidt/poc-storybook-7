@@ -23,14 +23,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    sh 'yarn'
+                    sh 'npm install'
                 }
             }
         }
         stage('Build Storybook') {
             steps {
                 script {
-                    sh "STORYBOOK_BUILD_PATH=\${BRANCH_NAME} yarn run build-storybook"
+                    sh "STORYBOOK_BUILD_PATH=\${BRANCH_NAME} npm run build-storybook"
                 }
             }
         }
