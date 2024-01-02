@@ -13,7 +13,7 @@ pipeline {
         //     steps {
         //         script {
         //             echo "GitHub Token: ${GITHUB_TOKEN}"
-        //             def deployment = sh(script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"ref\": \"\${BRANCH_NAME}\", \"environment\": \"demo-\${BRANCH_NAME}\"}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments", returnStatus: true)
+        //             def deployment = sh(script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"ref\": \"\${GIT_BRANCH}\", \"environment\": \"demo-\${GIT_BRANCH}\"}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments", returnStatus: true)
         //             if (deployment != 201) {
         //                 error "Failed to create deployment"
         //             }
@@ -31,7 +31,7 @@ pipeline {
         stage('Build Storybook') {
             steps {
                 script {
-                    sh "npm run build-storybook -- -o ./${BRANCH_NAME}"
+                    sh "npm run build-storybook -- -o ./${GIT_BRANCH}"
                 }
             }
         }
@@ -57,7 +57,7 @@ pipeline {
         // stage('Update deployment status') {
         //     steps {
         //         script {
-        //             def deploymentId = sh(script: "curl -s -H 'Authorization: token \${GITHUB_TOKEN}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments | jq -r '.[] | select(.ref == \"\${BRANCH_NAME}\") | .id'", returnStdout: true).trim()
+        //             def deploymentId = sh(script: "curl -s -H 'Authorization: token \${GITHUB_TOKEN}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments | jq -r '.[] | select(.ref == \"\${GIT_BRANCH}\") | .id'", returnStdout: true).trim()
         //             def status = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'failure' : 'success'
         //             sh script: "curl -X POST -H 'Authorization: token \${GITHUB_TOKEN}' -d '{\"state\": \"\${status}\"}' https://api.github.com/repos/henriqueidt/poc-storybook-7/deployments/\${deploymentId}/statuses", returnStatus: true
         //         }
