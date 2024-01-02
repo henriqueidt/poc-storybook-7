@@ -50,7 +50,7 @@ pipeline {
                     sh 'git config --global user.name "Henrique Eidt"'
                     sh 'git checkout gh-pages'
                     sh 'git add .'
-                    sh 'git commit -m "Update gh-pages"'
+                    // sh 'git commit -m "Update gh-pages"'
                     sh 'git push origin gh-pages'
                 }
             }
