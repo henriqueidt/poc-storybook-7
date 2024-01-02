@@ -31,7 +31,7 @@ pipeline {
         stage('Build Storybook') {
             steps {
                 script {
-                    sh "STORYBOOK_BUILD_PATH=\${BRANCH_NAME} npm run build-storybook"
+                    sh "npm run build-storybook -- -o ./${BRANCH_NAME}"
                 }
             }
         }
