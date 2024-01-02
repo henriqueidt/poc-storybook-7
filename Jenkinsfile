@@ -45,6 +45,7 @@ pipeline {
         stage('Push to gh-pages') {
             steps {
                 script {
+                    sh 'git clean  -d  -f .'
                     sh 'git config --global user.email "henriqueidt@gmail.com"'
                     sh 'git config --global user.name "Henrique Eidt"'
                     sh 'git checkout gh-pages'
