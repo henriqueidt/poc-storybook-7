@@ -38,7 +38,7 @@ pipeline {
         stage('Create version mark') {
             steps {
                 script {
-                    sh 'touch ./storybook-static/${env.GITHUB_SHA}.txt'
+                    sh 'touch ./storybook-static/${GIT_COMMIT}.txt'
                 }
             }
         }
