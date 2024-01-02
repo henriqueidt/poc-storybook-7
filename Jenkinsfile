@@ -45,6 +45,7 @@ pipeline {
         stage('Push to gh-pages') {
             steps {
                 script {
+                    sh 'git remote set-url origin git@github.com:henriqueidt/poc-storybook-7.git'
                     sh 'git clean  -d  -f .'
                     sh 'git config --global user.email "henriqueidt@gmail.com"'
                     sh 'git config --global user.name "Henrique Eidt"'
