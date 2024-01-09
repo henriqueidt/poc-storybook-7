@@ -28,13 +28,13 @@ pipeline {
                 }
             }
         }
-        // stage('Build Storybook') {
-        //     steps {
-        //         script {
-        //             sh "npm run build-storybook -- -o ./${GIT_BRANCH}"
-        //         }
-        //     }
-        // }
+        stage('Build Storybook') {
+            steps {
+                script {
+                    sh "npm run build-storybook -- -o ./${GIT_BRANCH}"
+                }
+            }
+        }
         stage('Create version mark') {
             steps {
                 script {
